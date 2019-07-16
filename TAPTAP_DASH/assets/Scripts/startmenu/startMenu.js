@@ -86,7 +86,7 @@ cc.Class({
     //确定人物选择
     onClick_confirmBn: function() {
         this.playButtonAudio()
-        console.log(this.shopPage.getChara())
+            // console.log(this.shopPage.getChara())
     },
     initStartStage: function() {
         this.initProperties()
