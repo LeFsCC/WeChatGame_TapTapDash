@@ -64,7 +64,7 @@ cc.Class({
     // 加载游戏场景
     onClick_toGameScene: function() {
         if(this.currentStage === 'stage_choicePage')
-            this.initProperties()
+            cc.director.loadScene('Game')
     },
     // 退回到开始界面
     onClick_toStartStage: function() {

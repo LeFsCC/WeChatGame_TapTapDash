@@ -15,9 +15,16 @@ cc.Class({
         // 如果方向是横向的，那么xbias 和 ybias 增量是方块增量的 1 / sqrt(2) 倍
         this.Ybias = 0
         this.Xbias = 0
+        this.RotaBias = 0
         this.index = 0
+        this.speed = 0.3
+
+        this.formerdirect = 'vertical'
         this.camera = this.node.parent
         this.camera.setRotation(0)
+
+        // 计数器
+        this.count = 0
         this.LoadPath()
     },
     start () {
@@ -28,42 +35,62 @@ cc.Class({
         cc.log(initCount)
         for(let i = 0; i < initCount; i++) {
             let pathBlock = cc.instantiate(this.pathElement)
-            this.node.addChild(pathBlock)
+            if(this.blocks[i].exist){
+                this.node.addChild(pathBlock)
+            }
             pathBlock.setPosition(this.blocks[i].x, this.blocks[i].y)
         }
         this.schedule(function(){
             this.runPath(this.index++)
-        },0.1)
+        },this.speed)
+        this.schedule(function(){
+           this.changePosition()
+        },this.speed / 10 - 0.004)
+        this.schedule(function(){
+           this.changeRotation()
+        },this.speed / 10 - 0.004)
     },
     // 让地图动起来
     runPath:function(idx) {
        if(idx >= this.blocks.length) {
              this.unschedule(this.runPath)
-             return 
+             return
          }
         this.direct = this.blocks[idx].direct
+        this.count = 0
        if(this.blocks[idx].direct === 'vertical'){
-           this.Ybias = -250
+           this.Ybias = -25
            this.Xbias = 0
+           if(this.formerdirect === 'right')
+              this.RotaBias = -4.5
+           else if(this.formerdirect === 'left')
+              this.RotaBias = 4.5
+           else 
+              this.RotaBias = 0
        }
        if(this.blocks[idx].direct === 'right'){
            this.Ybias = 0
-           this.Xbias = -250
+           this.Xbias = -25
+           if(this.formerdirect === 'vertical') this.RotaBias = 4.5
+           else this.RotaBias = 0
        }
        if(this.blocks[idx].direct === 'left'){
            this.Ybias = 0
-           this.Xbias = 250
+           this.Xbias = 25
+           if(this.formerdirect === 'vertical') this.RotaBias = -4.5
+           else this.RotaBias = 0
        }
-       // 更新位置
-        this.node.setPosition(this.node.x + this.Xbias,this.node.y + this.Ybias)
-        if(this.direct === 'vertical' && this.camera.rotation != 0 )
-           this.camera.setRotation(0)
-        if(this.direct === 'left' && this.camera.rotation != 45)
-           this.camera.setRotation(45)
-        if(this.direct === 'right' && this.camera.rotation != -45)
-           this.camera.setRotation(-45)
+       this.formerdirect = this.direct
+    },
+    changePosition:function() {
+        if(this.count < 10){
+            this.count += 1
+             this.node.setPosition(this.node.x + this.Xbias,this.node.y + this.Ybias)
+        }
+    },
+    changeRotation:function() {
+        if(this.count < 10){
+            this.camera.setRotation(this.camera.rotation + this.RotaBias)
+        }
     }
-    // update() {
-        
-    // }
 });
