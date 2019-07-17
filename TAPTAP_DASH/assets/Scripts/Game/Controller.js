@@ -1,3 +1,5 @@
+
+
 // 控制系统，可以监视控制地图和人物的移动
 
 cc.Class({
@@ -12,6 +14,8 @@ cc.Class({
         this.countTimer = 0
         this.ro = 0
         this.path = this.node.getChildByName('path')
+        this.player = this.node.getChildByName('player')
+
         this.schedule(function() {
             this.easeRotation()
         }, 0.026)
@@ -31,13 +35,24 @@ cc.Class({
     launchGame: function() {
         this.path.getComponent('Path').launchGame()
     },
-    RotateCamera: function() {
-        let angle = this.path.getComponent('Path').getnextRotation()
-        this.countTimer = 0
-        if (angle > this.ro) this.ro = 4.5
-        else if (angle < this.ro) this.ro = -4.5
-        else this.ro = 0
 
+    // 旋转摄像机和人物
+    RotateCamera: function() {
+        let playerDirect = this.path.getComponent('Path').requireDirect()
+        this.player.getComponent('Player').rotatePlayer(playerDirect)
+
+        if (playerDirect !== false) {
+            let angle = this.path.getComponent('Path').getnextRotation()
+            this.ro = this.node.rotation
+            if (this.ro === angle) return
+            this.countTimer = 0
+            if (angle > this.ro) this.ro = 4.5
+            else if (angle < this.ro) this.ro = -4.5
+        }
+    },
+    // 检查是否游戏结束
+    checkLose:function (){
+        
     },
     // 让转向动作缓慢进行
     easeRotation: function() {

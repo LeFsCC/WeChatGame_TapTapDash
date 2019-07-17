@@ -5,6 +5,10 @@ cc.Class({
         charaElement: {
             default: [],
             type: [cc.Prefab]
+        },
+        AudioBn : {
+            type: cc.AudioSource,
+            default: null
         }
     },
 
@@ -18,14 +22,33 @@ cc.Class({
         this.fixed = true
         this.midDirect = ''
     },
-
-    initButtons: function() {
-        let initCount = 6
-        for (let i = 0; i < initCount; i++) {
-            let Chara = cc.instantiate(this.charaElement[i])
-            this.node.addChild(Chara)
-            Chara.active = false
+    getChara:function() {
+       for(let i in this.node.children){
+           this.node.children[i].active = false
+           this.node.children[i].targetOff(this)
         }
+        this.unschedule(this.leftMovetoMedium)
+        this.unschedule(this.mediumMovetoLeft)
+        this.unschedule(this.mediumMovetoRight)
+        this.unschedule(this.RightmovetoMedium)
+        return this.mid
+    },
+    initButtons: function() {
+        if (this.node.children.length === 0) {
+            let initCount = 6
+            for (let i = 0; i < initCount; i++) {
+                let Chara = cc.instantiate(this.charaElement[i])
+                this.node.addChild(Chara)
+                Chara.active = false
+            }
+        }
+        this.left = 0
+        this.mid = 1
+        this.right = 2
+            // 计数器
+        this.fixed = true
+        this.midDirect = ''
+
         this.node.children[this.left].active = true
         this.node.children[this.left].setPosition(-300, 0)
         this.node.children[this.left].on('click', this.onClick_left, this)
@@ -39,7 +62,7 @@ cc.Class({
         this.node.children[this.right].on('click', this.onClick_right, this)
         this.node.children[this.right].setPosition(300, 0)
         this.node.children[this.right].setScale(0.8)
-        let timeInterval = 0.03
+        let timeInterval = 0.04
         this.schedule(function() {
             this.leftMovetoMedium()
         }, timeInterval)
@@ -54,6 +77,7 @@ cc.Class({
         }, timeInterval)
     },
     onClick_left: function() {
+        this.playAudio()
         let cr = this.mid
         let cm = this.left
         let cl = (this.left + 5) % 6
@@ -71,6 +95,7 @@ cc.Class({
         this.midDirect = 'right'
     },
     onClick_right: function() {
+        this.playAudio()
         let cm = this.right
         let cr = (this.right + 1) % 6
         let cl = this.mid
@@ -112,5 +137,8 @@ cc.Class({
             this.node.children[this.mid].setPosition(this.node.children[this.mid].x - 30, this.node.children[this.mid].y)
         if (this.node.children[this.mid].scale < 1.2)
             this.node.children[this.mid].setScale(this.node.children[this.mid].scale + 0.04)
+    },
+    playAudio : function () {
+        this.AudioBn.play()
     }
 });

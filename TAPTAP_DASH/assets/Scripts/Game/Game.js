@@ -1,3 +1,8 @@
+
+
+// 人物驱动
+
+
 cc.Class({
     extends: cc.Component,
 
@@ -55,6 +60,14 @@ cc.Class({
         this.schedule(function() {
             this.updateTime()
         }, 1)
+        this.schedule(function(){
+            this.checkStatus()
+        },0.01)
+    },
+    // 检查玩家是否失败
+    checkStatus:function (){
+        let if_lose = this.gameCamera.getComponent('Controller').checkLose()
+        // TODO 如果失败, 游戏结束
     },
     // 暂停或回到游戏，地图和人物都不动
     pause_back_Game: function() {

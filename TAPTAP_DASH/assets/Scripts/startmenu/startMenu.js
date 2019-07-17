@@ -10,6 +10,7 @@ cc.Class({
             type: cc.AudioSource,
             default: null
         }
+
     },
 
     // LIFE-CYCLE CALLBACKS:
@@ -86,7 +87,8 @@ cc.Class({
     //确定人物选择
     onClick_confirmBn: function() {
         this.playButtonAudio()
-            // console.log(this.shopPage.getChara())
+        console.log(this.shopPage.getChara())
+        this.initStartStage()
     },
     initStartStage: function() {
         this.initProperties()
