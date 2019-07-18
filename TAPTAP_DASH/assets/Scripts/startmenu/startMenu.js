@@ -15,11 +15,8 @@ cc.Class({
     // LIFE-CYCLE CALLBACKS:
 
     onLoad() {
-<<<<<<< HEAD
         this.dataBase = require('DataBase')
-=======
         dataBase.playerChoice = 1
->>>>>>> 56ba3e133f4fbcee70a6f22349c97b24d84428bf
         this.loadProperties()
         this.initStartStage()
     },
@@ -44,7 +41,7 @@ cc.Class({
 
         this.choicePage = this.node.getChildByName('MulChoiceBn').getComponent('chooseBn')
         this.shopPage = this.node.getChildByName('Shop').getComponent('Shop')
-        this.volumnPage = this.node.getChildByName('Volumn').getComponent('Volumn')
+        this.volumnPage = this.node.getChildByName('Volume').getComponent('Volume')
     },
     // 在入场动画开始前初始化场景
     initProperties: function() {
@@ -60,10 +57,10 @@ cc.Class({
         this.purchaseBn.active = false
         this.rankBn.active = false
         this.confirmBn.active = false
-        this.node.getChildByName('Volumn').getChildByName('bgmSlider').active = false
-        this.node.getChildByName('Volumn').getChildByName('soundSlider').active = false
-        this.node.getChildByName('Volumn').getChildByName('bgm').active = false
-        this.node.getChildByName('Volumn').getChildByName('sound').active = false
+        this.node.getChildByName('Volume').getChildByName('bgmSlider').active = false
+        this.node.getChildByName('Volume').getChildByName('soundSlider').active = false
+        this.node.getChildByName('Volume').getChildByName('bgm').active = false
+        this.node.getChildByName('Volume').getChildByName('sound').active = false
 
         this.currentStage = 'stage_pre'
     },

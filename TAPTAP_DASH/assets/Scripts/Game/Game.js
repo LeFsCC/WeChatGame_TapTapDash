@@ -11,18 +11,11 @@ cc.Class({
     },
     onLoad() {
         this.data = this.node.getChildByName('getData').getComponent('GameData')
-<<<<<<< HEAD
         this.initSource()
         this.registEventHandler()
-=======
-        console.log(this.data.requirePlayerChoice())
-        console.log(this.data.requireVolumn())
-        // this.initSource()
-        // this.registEventHandler()
->>>>>>> 56ba3e133f4fbcee70a6f22349c97b24d84428bf
     },
     start() {
-        // this.initGame()
+        this.initGame()
     },
     // 绑定一些节点
     initSource: function() {
@@ -66,20 +59,12 @@ cc.Class({
         }, 1)
         this.schedule(function() {
             this.checkStatus()
-<<<<<<< HEAD
         }, 0.01, 10000, 1)
-=======
-        },0.01,10000,1)
->>>>>>> 56ba3e133f4fbcee70a6f22349c97b24d84428bf
     },
     // 检查玩家是否失败
     checkStatus: function() {
         let if_lose = this.gameCamera.getComponent('Controller').checkLose()
-<<<<<<< HEAD
         if (if_lose === false) {
-=======
-        if(if_lose === false) {
->>>>>>> 56ba3e133f4fbcee70a6f22349c97b24d84428bf
             this.sceneState = false
             this.gameCamera.getComponent('Controller').pauseMap()
             this.unschedule(this.checkStatus)

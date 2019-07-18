@@ -1,3 +1,5 @@
+
+
 // 控制系统，可以监视控制地图和人物的移动
 
 cc.Class({
@@ -50,11 +52,7 @@ cc.Class({
         return true
     },
     // 检查是否游戏结束
-<<<<<<< HEAD
-    checkLose: function() {
-=======
     checkLose:function (){
->>>>>>> 56ba3e133f4fbcee70a6f22349c97b24d84428bf
         let is_exist = this.path.getComponent('Path').requireExist()
         console.log(is_exist)
         return this.player.getComponent('Player').checkPosition(is_exist)
