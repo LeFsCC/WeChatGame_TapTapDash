@@ -41,7 +41,7 @@ cc.Class({
         let playerDirect = this.path.getComponent('Path').requireDirect()
         this.player.getComponent('Player').rotatePlayer(playerDirect)
 
-        if (playerDirect !== false) {
+        if (playerDirect !== 'jumpY' || playerDirect !== 'jumpXM' || playerDirect !== 'jumpXP') {
             let angle = this.path.getComponent('Path').getnextRotation()
             this.ro = this.node.rotation
             if (this.ro === angle) return
@@ -49,10 +49,13 @@ cc.Class({
             if (angle > this.ro) this.ro = 4.5
             else if (angle < this.ro) this.ro = -4.5
         }
+        return true
     },
     // 检查是否游戏结束
     checkLose:function (){
-        
+        let is_exist = this.path.getComponent('Path').requireExist()
+        console.log(is_exist)
+        return this.player.getComponent('Player').checkPosition(is_exist)
     },
     // 让转向动作缓慢进行
     easeRotation: function() {

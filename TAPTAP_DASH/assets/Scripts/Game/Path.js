@@ -22,7 +22,7 @@ cc.Class({
         this.Xbias = 0
        
         this.index = 0
-        this.speed = 0.03
+        this.speed = 0.026
 
         this.formerdirect = 'vertical'
         this.camera = this.node.parent
@@ -61,14 +61,34 @@ cc.Class({
         
     },
     // 返回此时的方向
-    requireDirect:function (){
-        if(this.index >= this.blocks.length){
-             return 'vertical'
+    requireDirect: function () {
+        if (this.index >= this.blocks.length) {
+            return 'vertical'
         } else {
-            if(!this.blocks[this.index].exist)
-               return false
+            if (!this.blocks[this.index].exist && (this.blocks[this.index].direct === 'right'))
+                return 'jumpXP'
+            else if (!this.blocks[this.index].exist && (this.blocks[this.index].direct === 'left'))
+                return 'jumpXM'
+            else if (!this.blocks[this.index].exist)
+                return 'jumpY'
+            else if (!this.blocks[this.index - 1].exist && (this.blocks[this.index - 1].direct === 'right'))
+                return 'jumpXP'
+            else if (!this.blocks[this.index - 1].exist && (this.blocks[this.index - 1].direct === 'left'))
+                return 'jumpXM'
+            else if (!this.blocks[this.index - 1].exist)
+                return 'jumpY'
+            else if (!this.blocks[this.index + 1].exist && (this.blocks[this.index + 1].direct === 'right'))
+                return 'jumpXP'
+            else if (!this.blocks[this.index + 1].exist && (this.blocks[this.index + 1].direct === 'left'))
+                return 'jumpXM'
+            else if (!this.blocks[this.index + 1].exist)
+                return 'jumpY'
+
             return this.blocks[this.index + 1].direct
         }
+    },
+    requireExist:function() {
+       return this.blocks[this.index -1 ].exist
     },
     // 被父节点调用的接口，用来控制地图的移动
     launchGame: function () {
@@ -77,7 +97,7 @@ cc.Class({
         this.Xbias = 0
         this.RotaBias = 0
         this.index = 0
-        this.speed = 0.03
+        this.speed = 0.026
         this.formerdirect = 'vertical'
         this.camera.setRotation(0)
         this.LoadPath()
@@ -103,7 +123,7 @@ cc.Class({
             if (this.GameStatus === false)
                 return
             this.changePosition()
-        }, 0.026)
+        }, this.speed)
     },
     getPosition: function () {
         if (this.index === this.blocks.length)
@@ -120,11 +140,10 @@ cc.Class({
     },
     // 让地图动起来
     runPath: function (idx) {
-        this.node.children[idx].setScale(1.2)
+        // this.node.children[idx].setScale(1.2)
         this.count = 0
     },
     HanderDirect: function (idx) {
-        console.log(idx)
         this.direct = this.blocks[idx].direct
         if (this.blocks[idx + 1].direct === 'vertical') {
             this.Ybias = -25

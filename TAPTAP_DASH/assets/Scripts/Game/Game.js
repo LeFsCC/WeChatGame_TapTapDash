@@ -1,8 +1,6 @@
 
 
 // 人物驱动
-
-
 cc.Class({
     extends: cc.Component,
 
@@ -14,11 +12,14 @@ cc.Class({
         executionOrder: 0
     },
     onLoad() {
-        this.initSource()
-        this.registEventHandler()
+        this.data = this.node.getChildByName('getData').getComponent('GameData')
+        console.log(this.data.requirePlayerChoice())
+        console.log(this.data.requireVolumn())
+        // this.initSource()
+        // this.registEventHandler()
     },
     start() {
-        this.initGame()
+        // this.initGame()
     },
     // 绑定一些节点
     initSource: function() {
@@ -62,11 +63,16 @@ cc.Class({
         }, 1)
         this.schedule(function(){
             this.checkStatus()
-        },0.01)
+        },0.01,10000,1)
     },
     // 检查玩家是否失败
     checkStatus:function (){
         let if_lose = this.gameCamera.getComponent('Controller').checkLose()
+        if(if_lose === false) {
+            this.sceneState = false
+            this.gameCamera.getComponent('Controller').pauseMap()
+            this.unschedule(this.checkStatus)
+        }
         // TODO 如果失败, 游戏结束
     },
     // 暂停或回到游戏，地图和人物都不动

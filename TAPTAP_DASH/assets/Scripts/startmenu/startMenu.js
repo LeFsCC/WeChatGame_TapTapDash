@@ -1,6 +1,6 @@
 // 开始场景，可转换到选择模式的场景
 // 向前开始的按钮，
-
+var dataBase = require('DataBase')
 cc.Class({
     extends: cc.Component,
 
@@ -16,6 +16,7 @@ cc.Class({
     // LIFE-CYCLE CALLBACKS:
 
     onLoad() {
+        dataBase.playerChoice = 1
         this.loadProperties()
         this.initStartStage()
     },
