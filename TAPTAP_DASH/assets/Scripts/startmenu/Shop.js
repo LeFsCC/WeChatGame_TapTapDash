@@ -6,7 +6,7 @@ cc.Class({
             default: [],
             type: [cc.Prefab]
         },
-        AudioBn : {
+        AudioBn: {
             type: cc.AudioSource,
             default: null
         }
@@ -22,10 +22,10 @@ cc.Class({
         this.fixed = true
         this.midDirect = ''
     },
-    getChara:function() {
-       for(let i in this.node.children){
-           this.node.children[i].active = false
-           this.node.children[i].targetOff(this)
+    getChara: function() {
+        for (let i in this.node.children) {
+            this.node.children[i].active = false
+            this.node.children[i].targetOff(this)
         }
         this.unschedule(this.leftMovetoMedium)
         this.unschedule(this.mediumMovetoLeft)
@@ -138,7 +138,7 @@ cc.Class({
         if (this.node.children[this.mid].scale < 1.2)
             this.node.children[this.mid].setScale(this.node.children[this.mid].scale + 0.04)
     },
-    playAudio : function () {
+    playAudio: function() {
         this.AudioBn.play()
     }
 });

@@ -1,6 +1,6 @@
 // 开始场景，可转换到选择模式的场景
 // 向前开始的按钮，
-
+var dataBase = require('DataBase')
 cc.Class({
     extends: cc.Component,
 
@@ -9,13 +9,17 @@ cc.Class({
         audioButton: {
             type: cc.AudioSource,
             default: null
-        }
-
+        },
     },
 
     // LIFE-CYCLE CALLBACKS:
 
     onLoad() {
+<<<<<<< HEAD
+        this.dataBase = require('DataBase')
+=======
+        dataBase.playerChoice = 1
+>>>>>>> 56ba3e133f4fbcee70a6f22349c97b24d84428bf
         this.loadProperties()
         this.initStartStage()
     },
@@ -36,10 +40,11 @@ cc.Class({
         this.rankBn = this.node.getChildByName('rank')
         this.confirmBn = this.node.getChildByName('confirmBn')
             // 场景编码
-        this.currentStage = 'stage_startMenu' // stage_rank, stage_choicePage, stage_purchase, stage_pre, stage_set
+        this.currentStage = 'stage_startMenu' // stage_rank, stage_choicePage, stage_purchase, stage_pre, stage_set, stage_volumn
 
         this.choicePage = this.node.getChildByName('MulChoiceBn').getComponent('chooseBn')
         this.shopPage = this.node.getChildByName('Shop').getComponent('Shop')
+        this.volumnPage = this.node.getChildByName('Volumn').getComponent('Volumn')
     },
     // 在入场动画开始前初始化场景
     initProperties: function() {
@@ -55,6 +60,10 @@ cc.Class({
         this.purchaseBn.active = false
         this.rankBn.active = false
         this.confirmBn.active = false
+        this.node.getChildByName('Volumn').getChildByName('bgmSlider').active = false
+        this.node.getChildByName('Volumn').getChildByName('soundSlider').active = false
+        this.node.getChildByName('Volumn').getChildByName('bgm').active = false
+        this.node.getChildByName('Volumn').getChildByName('sound').active = false
 
         this.currentStage = 'stage_pre'
     },
@@ -75,6 +84,8 @@ cc.Class({
         if (this.currentStage === 'stage_choicePage') {
             this.choicePage.hideButton()
             this.initStartStage()
+        } else if (this.currentStage === 'stage_volumn') {
+            this.initStartStage()
         }
     },
     //进入商店界面
@@ -87,8 +98,18 @@ cc.Class({
     //确定人物选择
     onClick_confirmBn: function() {
         this.playButtonAudio()
-        console.log(this.shopPage.getChara())
+        let playerIndex = this.shopPage.getChara()
+        if (playerIndex < 6 && playerIndex >= 0) {
+            this.dataBase.playerChoice = playerIndex
+        }
         this.initStartStage()
+    },
+    //进入音乐播放界面
+    onClick_volumnBn: function() {
+        this.playButtonAudio()
+        if (this.currentStage === 'stage_startMenu') {
+            this.initvolum()
+        }
     },
     initStartStage: function() {
         this.initProperties()
@@ -98,6 +119,7 @@ cc.Class({
         this.backBn.on('click', this.onClick_toStartStage, this)
         this.purchaseBn.on('click', this.onClick_toPurchaseStage, this)
         this.confirmBn.on('click', this.onClick_confirmBn, this)
+        this.volumnBn.on('click', this.onClick_volumnBn, this)
 
         this.startBn.active = true
         this.setBn.active = true
@@ -125,6 +147,15 @@ cc.Class({
         this.background.active = true
         this.confirmBn.active = true
         this.shopPage.initButtons()
+    },
+    initvolum: function() {
+        this.initProperties()
+        this.currentStage = 'stage_volumn'
+        this.background.active = true
+        this.people.active = true
+        this.title.active = true
+        this.backBn.active = true
+        this.volumnPage.initSlides()
     },
     playButtonAudio: function() {
         this.audioButton.play()
