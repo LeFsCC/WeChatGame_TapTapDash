@@ -32,8 +32,9 @@ cc.Class({
     restrartPlayer: function() {
 
     },
-    launchGame: function() {
+    launchGame: function(playerIndex) {
         this.path.getComponent('Path').launchGame()
+        this.player.getComponent('Player').choosePlayer(playerIndex)
     },
 
     // 旋转摄像机和人物

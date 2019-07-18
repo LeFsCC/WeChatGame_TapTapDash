@@ -71,11 +71,11 @@ cc.Class({
                 return 'jumpXM'
             else if (!this.blocks[this.index].exist)
                 return 'jumpY'
-            else if (!this.blocks[this.index - 1].exist && (this.blocks[this.index - 1].direct === 'right'))
+            else if (this.index > 0 && !this.blocks[this.index - 1].exist && (this.blocks[this.index - 1].direct === 'right'))
                 return 'jumpXP'
-            else if (!this.blocks[this.index - 1].exist && (this.blocks[this.index - 1].direct === 'left'))
+            else if (this.index > 0 && !this.blocks[this.index - 1].exist && (this.blocks[this.index - 1].direct === 'left'))
                 return 'jumpXM'
-            else if (!this.blocks[this.index - 1].exist)
+            else if (this.index > 0 && !this.blocks[this.index - 1].exist)
                 return 'jumpY'
             else if (!this.blocks[this.index + 1].exist && (this.blocks[this.index + 1].direct === 'right'))
                 return 'jumpXP'

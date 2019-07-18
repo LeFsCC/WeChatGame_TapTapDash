@@ -8,6 +8,7 @@ cc.Class({
     },
     onLoad() {
         // 人物静止，永远不动
+        this.playIndex = require('')
         this.path = this.node.parent.getChildByName('path')
         this.playerPosition = {
             x: this.node.x - this.path.x,
@@ -31,6 +32,32 @@ cc.Class({
             this.jumpXM()
             this.jumpXP()
         }, this.timeSpan)
+    },
+    choosePlayer:function(playerIndex){
+       this.player.pause()
+        switch (playerIndex) {
+            case 0:
+                this.player.play('txy')
+                break
+            case 1:
+                this.player.play('bzt')
+                break
+            case 2:
+                this.player.play('gfr')
+                break
+            case 3:
+                this.player.play('ldz')
+                break
+            case 4:
+                this.player.play('lqh')
+                break
+            case 5:
+                this.player.play('mxb')
+                break
+            default:
+                this.player.play('txy')
+                break
+        }
     },
     // 检查人物的坐标是否越过了方块
     checkPosition: function(exist) {
