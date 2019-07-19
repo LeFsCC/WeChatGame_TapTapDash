@@ -1,3 +1,4 @@
+
 // 路径驱动
 cc.Class({
     extends: cc.Component,
@@ -10,8 +11,8 @@ cc.Class({
             type: cc.Prefab
         },
         starElement: {
-            default: null,
-            type: cc.Prefab
+            default : null,
+            type : cc.Prefab
         }
     },
     onLoad() {
@@ -20,20 +21,20 @@ cc.Class({
         this.direct = ''
         this.Ybias = 0
         this.Xbias = 0
-
+       
         this.index = 0
         this.speed = 0.026
         this.formerdirect = 'vertical'
         this.camera = this.node.parent
         this.camera.setRotation(0)
-            // 计数器
+        // 计数器
         this.count = 0
-            // 目前的游戏状态
+        // 目前的游戏状态
         this.GameStatus = true
         this.volumn = this.node.getComponent(cc.AudioSource)
     },
     // 如果返回false， 游戏直接结束，如果返回数值，那么旋转角度
-    getnextRotation: function() {
+    getnextRotation: function () {
         // 已到达边界
         if (this.index === this.blocks.length - 1) {
             return 0
@@ -56,11 +57,11 @@ cc.Class({
         if (direct0 === 'right' && direct1 === 'vertical')
             return 45
     },
-    checkPosition: function() {
-
+    checkPosition: function () {
+        
     },
     // 返回此时的方向
-    requireDirect: function() {
+    requireDirect: function () {
         if (this.index >= this.blocks.length) {
             return 'vertical'
         } else {
@@ -86,14 +87,14 @@ cc.Class({
             return this.blocks[this.index + 1].direct
         }
     },
-    requireExist: function() {
-        if (this.index === this.blocks.length - 1) {
+    requireExist:function() {
+        if(this.index === this.blocks.length - 1) {
             return 'end'
         }
-        return this.blocks[this.index - 1].exist
+        return this.blocks[this.index - 1 ].exist
     },
     // 被父节点调用的接口，用来控制地图的移动
-    launchGame: function(hardDegree) {
+    launchGame: function (hardDegree) {
         this.node.setPosition(0, 0)
         this.Ybias = -25
         this.Xbias = 0
@@ -101,24 +102,24 @@ cc.Class({
         this.index = 0
         this.speed = 0.02
         this.formerdirect = 'vertical'
-        if (hardDegree === 'easy') {
-            this.blocks = require('pathSource').blocks(400, 'easy')
+        if(hardDegree === 'easy'){
+            this.blocks = require('pathSource').blocks(400,'easy')
             this.speed = 0.024
-        } else if (hardDegree === 'normal') {
-            this.blocks = require('pathSource').blocks(400, 'normal')
+        } else if(hardDegree === 'normal'){
+            this.blocks = require('pathSource').blocks(400,'normal')
             this.speed = 0.02
-        } else if (hardDegree === 'hard') {
-            this.blocks = require('pathSource').blocks(400, 'hard')
+        } else if(hardDegree === 'hard') {
+            this.blocks = require('pathSource').blocks(400,'hard')
             this.speed = 0.017
         }
         this.camera.setRotation(0)
         this.LoadPath()
     },
-    changeStatus: function(sta) {
+    changeStatus: function (sta) {
         this.GameStatus = sta
     },
     // 加载地图
-    LoadPath: function() {
+    LoadPath: function () {
         let initCount = this.blocks.length
         for (let i = 0; i < initCount; i++) {
             let pathBlock = cc.instantiate(this.pathElement)
@@ -132,23 +133,23 @@ cc.Class({
                 pathBlock.children[0].setPosition(0, 0)
                 pathBlock.children[0].getComponent(cc.Animation).play()
             }
-
+            
 
             if (!this.blocks[i].exist) {
                 this.node.children[i].setScale(0)
             }
             pathBlock.setPosition(this.blocks[i].x, this.blocks[i].y)
-
+            
         }
         this.HanderDirect(this.index)
 
-        this.schedule(function() {
+        this.schedule(function () {
             if (this.GameStatus === false)
                 return
             this.changePosition()
         }, this.speed)
     },
-    getPosition: function() {
+    getPosition: function () {
         if (this.index === this.blocks.length)
             return null
         let position = {
@@ -157,10 +158,11 @@ cc.Class({
         }
         return position
     },
-    changeIndex: function() {},
+    changeIndex: function () {
+    },
     // 让地图动起来
-    runPath: function(idx) {
-        if (this.node.children[idx].children.length != 0) {
+    runPath: function (idx) {
+        if(this.node.children[idx].children.length != 0){
             this.node.children[idx].children[0].active = false
             this.node.parent.parent.getComponent('Game').produceNewStar()
             this.volumn.play()
@@ -168,7 +170,7 @@ cc.Class({
         }
         this.count = 0
     },
-    HanderDirect: function(idx) {
+    HanderDirect: function (idx) {
         this.direct = this.blocks[idx].direct
         if (this.blocks[idx + 1].direct === 'vertical') {
             this.Ybias = -25
@@ -184,7 +186,7 @@ cc.Class({
         }
         this.formerdirect = this.direct
     },
-    changePosition: function() {
+    changePosition: function () {
         // 游戏暂停
         if (this.GameStatus === false)
             return
@@ -192,12 +194,12 @@ cc.Class({
             this.count += 1
             this.node.setPosition(this.node.x + this.Xbias, this.node.y + this.Ybias)
         } else {
-
-            if (this.index < this.blocks.length - 1)
-                this.runPath(this.index++)
-                // 砖块走完游戏结束
+            
+            if(this.index < this.blocks.length - 1)
+               this.runPath(this.index++)
+            // 砖块走完游戏结束
             else
-                this.GameStatus = false
+              this.GameStatus = false
         }
     }
 });
