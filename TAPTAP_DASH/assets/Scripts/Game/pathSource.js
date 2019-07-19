@@ -1,11 +1,11 @@
 var blocks = function(total, difficulty) {
-    console.log(total,difficulty)
+    console.log(total, difficulty)
     var blocks = []
     var Block = {
         x: 0,
         y: 0,
         exist: false,
-        hasStar : false,
+        hasStar: false,
         direct: 'vertical' // vertical, right, left
     }
     var count = 0
