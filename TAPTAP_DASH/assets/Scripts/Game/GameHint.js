@@ -13,6 +13,7 @@ cc.Class({
         this.fail1 = this.node.getChildByName('failed1')
         this.fail2 = this.node.getChildByName('failed2')
         this.initHint()
+        playAlready = false
     },
     initHint:function(){
         this.win1.active = false
@@ -31,13 +32,12 @@ cc.Class({
          } else {
              this.win2.active = true
          }
-         playAlready = false
+         playAlready = true
     },
     playLoseHint:function() {
         if(playAlready === true){
             return
         }
-        console.log('in lose')
          let N = Math.random() % 2
          this.initHint()
          if(N > 0.5){
@@ -45,6 +45,6 @@ cc.Class({
         } else {
             this.fail2.active = true
         }
-        playAlready = false
+        playAlready = true
     }
 });

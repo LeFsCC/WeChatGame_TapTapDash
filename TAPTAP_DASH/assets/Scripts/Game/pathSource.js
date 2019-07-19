@@ -1,106 +1,123 @@
-const blocks = [
-  { exist: true, direct: 'vertical', x: 0, y: 250, count: 0 },
-  { exist: true, direct: 'vertical', x: 0, y: 500, count: 0 },
-  { exist: true, direct: 'vertical', x: 0, y: 750, count: 0 },
-  { exist: true, direct: 'vertical', x: 0, y: 1000, count: 0 },
-  { exist: true, direct: 'vertical', x: 0, y: 1250, count: 0 },
-  { exist: true, direct: 'vertical', x: 0, y: 1500, count: 0 },
-  { exist: true, direct: 'vertical', x: 0, y: 1750, count: 0 },
-  { exist: true, direct: 'vertical', x: 0, y: 2000, count: 0 },
-  { exist: true, direct: 'vertical', x: 0, y: 2250, count: 1 },
-  { exist: true, direct: 'vertical', x: 0, y: 2500, count: 2 },
-  { exist: true, direct: 'vertical', x: 0, y: 2750, count: 3 },
-  { exist: true, direct: 'vertical', x: 0, y: 3000, count: 4 },
-  { exist: true, direct: 'vertical', x: 0, y: 3250, count: 5 },
-  { exist: true, direct: 'vertical', x: 0, y: 3500, count: 6 },
-  { exist: true, direct: 'vertical', x: 0, y: 3750, count: 7 },
-  { exist: false, direct: 'vertical', x: 0, y: 4000, count: 0 },
-  { exist: true, direct: 'vertical', x: 0, y: 4250, count: 1 },
-  { exist: true, direct: 'vertical', x: 0, y: 4500, count: 2 },
-  { exist: true, direct: 'vertical', x: 0, y: 4750, count: 3 },
-  { exist: true, direct: 'vertical', x: 0, y: 5000, count: 4 },
-  { exist: false, direct: 'vertical', x: 0, y: 5250, count: 0 },
-  { exist: true, direct: 'vertical', x: 0, y: 5500, count: 1 },
-  { exist: true, direct: 'vertical', x: 0, y: 5750, count: 2 },
-  { exist: true, direct: 'vertical', x: 0, y: 6000, count: 3 },
-  { exist: true, direct: 'vertical', x: 0, y: 6250, count: 4 },
-  { exist: true, direct: 'right', x: 250, y: 6250, count: 0 },
-  { exist: true, direct: 'right', x: 500, y: 6250, count: 1 },
-  { exist: false, direct: 'right', x: 750, y: 6250, count: 2 },
-  { exist: true, direct: 'right', x: 1000, y: 6250, count: 3 },
-  { exist: true, direct: 'right', x: 1250, y: 6250, count: 4 },
-  { exist: true, direct: 'vertical', x: 1250, y: 6500, count: 0 },
-  { exist: true, direct: 'vertical', x: 1250, y: 6750, count: 1 },
-  { exist: true, direct: 'vertical', x: 1250, y: 7000, count: 2 },
-  { exist: true, direct: 'vertical', x: 1250, y: 7250, count: 3 },
-  { exist: true, direct: 'vertical', x: 1250, y: 7500, count: 4 },
-  { exist: true, direct: 'right', x: 1500, y: 7500, count: 0 },
-  { exist: true, direct: 'right', x: 1750, y: 7500, count: 1 },
-  { exist: true, direct: 'right', x: 2000, y: 7500, count: 2 },
-  { exist: false, direct: 'right', x: 2250, y: 7500, count: 3 },
-  { exist: true, direct: 'right', x: 2500, y: 7500, count: 4 },
-  { exist: true, direct: 'right', x: 2750, y: 7500, count: 5 },
-  { exist: true, direct: 'vertical', x: 2750, y: 7750, count: 0 },
-  { exist: true, direct: 'vertical', x: 2750, y: 8000, count: 1 },
-  { exist: true, direct: 'vertical', x: 2750, y: 8250, count: 2 },
-  { exist: true, direct: 'vertical', x: 2750, y: 8500, count: 3 },
-  { exist: true, direct: 'vertical', x: 2750, y: 8750, count: 4 },
-  { exist: true, direct: 'vertical', x: 2750, y: 9000, count: 5 },
-  { exist: false, direct: 'vertical', x: 2750, y: 9250, count: 0 },
-  { exist: true, direct: 'vertical', x: 2750, y: 9500, count: 1 },
-  { exist: true, direct: 'vertical', x: 2750, y: 9750, count: 2 },
-  { exist: true, direct: 'vertical', x: 2750, y: 10000, count: 3 },
-  { exist: true, direct: 'vertical', x: 2750, y: 10250, count: 4 },
-  { exist: true, direct: 'right', x: 3000, y: 10250, count: 0 },
-  { exist: true, direct: 'right', x: 3250, y: 10250, count: 1 },
-  { exist: true, direct: 'right', x: 3500, y: 10250, count: 2 },
-  { exist: true, direct: 'right', x: 3750, y: 10250, count: 3 },
-  { exist: true, direct: 'right', x: 4000, y: 10250, count: 4 },
-  { exist: true, direct: 'right', x: 4250, y: 10250, count: 5 },
-  { exist: true, direct: 'right', x: 4500, y: 10250, count: 6 },
-  { exist: true, direct: 'vertical', x: 4500, y: 10500, count: 0 },
-  { exist: true, direct: 'vertical', x: 4500, y: 10750, count: 1 },
-  { exist: true, direct: 'vertical', x: 4500, y: 11000, count: 2 },
-  { exist: true, direct: 'vertical', x: 4500, y: 11250, count: 3 },
-  { exist: true, direct: 'vertical', x: 4500, y: 11500, count: 4 },
-  { exist: true, direct: 'vertical', x: 4500, y: 11750, count: 5 },
-  { exist: true, direct: 'right', x: 4750, y: 11750, count: 0 },
-  { exist: true, direct: 'right', x: 5000, y: 11750, count: 1 },
-  { exist: true, direct: 'right', x: 5250, y: 11750, count: 2 },
-  { exist: true, direct: 'right', x: 5500, y: 11750, count: 3 },
-  { exist: true, direct: 'right', x: 5750, y: 11750, count: 4 },
-  { exist: true, direct: 'right', x: 6000, y: 11750, count: 5 },
-  { exist: true, direct: 'right', x: 6250, y: 11750, count: 6 },
-  { exist: true, direct: 'vertical', x: 6250, y: 12000, count: 0 },
-  { exist: true, direct: 'vertical', x: 6250, y: 12250, count: 1 },
-  { exist: true, direct: 'vertical', x: 6250, y: 12500, count: 2 },
-  { exist: true, direct: 'vertical', x: 6250, y: 12750, count: 3 },
-  { exist: true, direct: 'vertical', x: 6250, y: 13000, count: 4 },
-  { exist: false, direct: 'vertical', x: 6250, y: 13250, count: 0 },
-  { exist: true, direct: 'vertical', x: 6250, y: 13500, count: 1 },
-  { exist: true, direct: 'vertical', x: 6250, y: 13750, count: 2 },
-  { exist: true, direct: 'vertical', x: 6250, y: 14000, count: 3 },
-  { exist: true, direct: 'vertical', x: 6250, y: 14250, count: 4 },
-  { exist: true, direct: 'vertical', x: 6250, y: 14500, count: 5 },
-  { exist: false, direct: 'vertical', x: 6250, y: 14750, count: 0 },
-  { exist: true, direct: 'vertical', x: 6250, y: 15000, count: 1 },
-  { exist: true, direct: 'vertical', x: 6250, y: 15250, count: 2 },
-  { exist: true, direct: 'vertical', x: 6250, y: 15500, count: 3 },
-  { exist: true, direct: 'vertical', x: 6250, y: 15750, count: 4 },
-  { exist: false, direct: 'vertical', x: 6250, y: 16000, count: 0 },
-  { exist: true, direct: 'vertical', x: 6250, y: 16250, count: 1 },
-  { exist: true, direct: 'vertical', x: 6250, y: 16500, count: 2 },
-  { exist: true, direct: 'vertical', x: 6250, y: 16750, count: 3 },
-  { exist: true, direct: 'vertical', x: 6250, y: 17000, count: 4 },
-  { exist: true, direct: 'left', x: 6000, y: 17000, count: 0 },
-  { exist: true, direct: 'left', x: 5750, y: 17000, count: 1 },
-  { exist: true, direct: 'left', x: 5500, y: 17000, count: 2 },
-  { exist: false, direct: 'left', x: 5250, y: 17000, count: 3 },
-  { exist: true, direct: 'left', x: 5000, y: 17000, count: 4 },
-  { exist: true, direct: 'left', x: 4750, y: 17000, count: 5 },
-  { exist: true, direct: 'vertical', x: 4750, y: 17250, count: 0 }
-]
+var blocks = function(total, difficulty) {
+    var blocks = []
+    var Block = {
+        x: 0,
+        y: 0,
+        exist: false,
+        hasStar : false,
+        direct: 'vertical' // vertical, right, left
+    }
+    var count = 0
+    let geneDiffFlag = 0
+    let disProb = 0
+    let turnProb = 0
+    let starProb = 0
+    switch (difficulty) {
+        case 'easy':
+            {
+                geneDiffFlag = 6
+                disProb = 0
+                turnProb = 0.1
+                starProb = 0.1
+            }
+        case 'normal':
+            {
+                geneDiffFlag = 4
+                disProb = 0.4
+                turnProb = 0.4
+                starProb = 0.2
+            }
+        case 'hard':
+            {
+                geneDiffFlag = 3
+                disProb = 0.5
+                turnProb = 0.5
+                starProb = 0.3
+            }
+    }
+    for (var i = 0; i < total; i++) {
+        if (i === 0) {
+            var before = Block;
+        } else {
+            var before = blocks[i - 1]
+        }
+        var bx = before.x
+        var by = before.y
+        var bd = before.direct
+        var b = Object.create(Block)
+        b.exist = true
+        b.hasStar = false
+        if (i <= 2) {
+            b.direct = bd
+        } else {
+            //产生障碍
+            if (count >= geneDiffFlag) {
+                var dis = Math.random()
+                var turn = Math.random()
+                if (dis < disProb) {
+                    b.exist = false
+                    b.direct = bd
+                    count = 0
+                } else {
+                    if (turn < turnProb * count) {
+                        if (bd === 'vertical') {
+                            var d = Math.random()
+                            if (d < 0.5) {
+                                b.direct = 'right'
+                            } else {
+                                b.direct = 'left'
+                            }
+                        } else {
+                            b.direct = 'vertical'
+                        }
+                        count = 0
+                    } else {
+                        count++
+                        b.direct = bd
+                    }
+                }
+            } else {
+                count++
+                b.direct = bd
+            }
+        }
 
+        //确定位置
+        switch (b.direct) {
+            case 'vertical':
+                {
+                    b.direct = 'vertical'
+                    b.x = bx
+                    b.y = by + 250
+                    break;
+                }
+            case 'left':
+                {
+                    b.direct = 'left'
+                    b.x = bx - 250
+                    b.y = by
+                    break;
+                }
+            case 'right':
+                {
+                    b.direct = 'right'
+                    b.x = bx + 250
+                    b.y = by
+                    break;
+                }
+        }
+
+        //产生星星
+        if (b.exist === true) {
+            var starflag = Math.random()
+            if (starflag < starProb) {
+                b.hasStar = true
+            }
+        }
+        blocks[i] = b
+    }
+    return blocks
+}
 module.exports = {
     blocks
-};
+}

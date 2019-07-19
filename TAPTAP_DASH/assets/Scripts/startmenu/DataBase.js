@@ -6,9 +6,19 @@
 const playerChoice = 0
 
 // 音量大小
-const volumnDegree = 0.5
+const volumnDegree = {
+    bgmVolume : 0.5,
+    bnVolume : 0.5
+}
+
+const score = 0
+
+// 难度大小
+const HardDegree = 'easy'
 
 module.exports = {
     playerChoice,
-    volumnDegree
+    volumnDegree,
+    score,
+    HardDegree
 }

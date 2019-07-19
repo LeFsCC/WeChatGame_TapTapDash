@@ -3,7 +3,6 @@ cc.Class({
     extends: cc.Component,
 
     properties: {
-        scoreTxt: cc.RichText,
         timeTxt: cc.RichText
     },
     editor: {
@@ -25,11 +24,11 @@ cc.Class({
         this.ptimerNode = this.node.getChildByName('time')
         this.pauseBn = this.node.getChildByName('pauseBn')
         this.gameHint = this.node.getChildByName('GameHint').getComponent('GameHint')
+        this.ResultPage = this.node.getChildByName('GameResultPage').getComponent('GameResultPage')
         // 场景宏观变量
-        this.sceneState = 'pause' // 当前场景处于暂停状态
+        this.sceneState = true // 当前场景处于暂停状态
         this.timeSpan = 0 // 已经经过的时间
         this.if_touch = false
-
         this.GameResult = 'start' // 'lose', 'win'
     },
     // 刷新时间函数
@@ -54,9 +53,13 @@ cc.Class({
     // 初始化游戏并重新开始，所有属性归到初始状态
     initGame: function() {
         this.timeSpan = 0
-            // TODO: 初始化道路和人物
+        // TODO: 初始化道路和人物
         let  playerIndex = this.data.requirePlayerChoice()
-        this.gameCamera.getComponent('Controller').launchGame(playerIndex)
+        let  hardDegree = this.data.requireHardDegree()
+
+        this.gameCamera.getComponent('Controller').launchGame(playerIndex,hardDegree)
+        
+        this.node.getChildByName('GameResultPage').active = false
 
         // 刷新时间
         this.schedule(function() {
@@ -75,6 +78,7 @@ cc.Class({
     // 检查玩家是否失败
     checkStatus: function() {
         let if_lose = this.gameCamera.getComponent('Controller').checkLose()
+
         // TODO 如果失败, 游戏结束
         if (if_lose === false) {
             this.sceneState = false
@@ -91,10 +95,25 @@ cc.Class({
             this.GameResult = 'lose' 
             this.unschedule(this.checkStatus)
         }
+        // TODO, 如果地图结束，玩家胜利
+        else if (if_lose === 'end') {
+            this.sceneState = false
+            this.gameCamera.getComponent('Controller').pauseMap()
+
+            if (this.GameResult === 'start') {
+                this.schedule(function () {
+                    this.gameHint.playWinHint()
+                }, 0.1, 1)
+                this.schedule(function () {
+                    this.back_StartScene()
+                }, 0.1, 1, 1.5)
+            }
+            this.GameResult = 'win' 
+            this.unschedule(this.checkStatus)
+        }
     },
     // 暂停或回到游戏，地图和人物都不动
     pause_back_Game: function() {
-        console.log('pause ')
         if (this.sceneState === true) {
             this.sceneState = false
             this.gameCamera.getComponent('Controller').pauseMap()
@@ -120,6 +139,7 @@ cc.Class({
         this.node.on('touchend', this.closeTouch, this)
     },
     back_StartScene:function(){
-        cc.director.loadScene('start Scene')
+        this.node.getChildByName('GameResultPage').active = true
+        this.ResultPage.initStar()
     }
 });

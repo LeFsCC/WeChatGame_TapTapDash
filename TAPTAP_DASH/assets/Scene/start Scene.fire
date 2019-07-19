@@ -47,8 +47,8 @@
     },
     "_scale": {
       "__type__": "cc.Vec3",
-      "x": 0.2942708333333333,
-      "y": 0.2942708333333333,
+      "x": 0.2677083333333333,
+      "y": 0.2677083333333333,
       "z": 1
     },
     "_quat": {
@@ -321,10 +321,10 @@
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
     "_spriteFrame": {
-      "__uuid__": "173d3b4e-17b1-4385-828a-719c9042c4b1"
+      "__uuid__": "b777b424-fe3d-4c8e-a710-39e1788ec055"
     },
     "_type": 0,
-    "_sizeMode": 1,
+    "_sizeMode": 0,
     "_fillType": 0,
     "_fillCenter": {
       "__type__": "cc.Vec2",
@@ -364,8 +364,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 524,
-      "height": 521
+      "width": 386,
+      "height": 389
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -409,7 +409,7 @@
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
     "_spriteFrame": {
-      "__uuid__": "6d08aa11-b62f-4a6d-a004-e88a51bd2727"
+      "__uuid__": "8b1c513f-e7d1-4fef-b8cc-492f41d685d2"
     },
     "_type": 0,
     "_sizeMode": 1,
@@ -3919,7 +3919,7 @@
     "_color": {
       "__type__": "cc.Color",
       "r": 0,
-      "g": 255,
+      "g": 0,
       "b": 0,
       "a": 255
     },
@@ -3957,7 +3957,7 @@
     "_skewX": 0,
     "_skewY": 0,
     "groupIndex": 0,
-    "_id": "e8cswxLIBG65hyo7m5jGbW"
+    "_id": "07reu/tgRE4aExoTzCJQWt"
   },
   {
     "__type__": "cc.Label",
@@ -3982,7 +3982,7 @@
     "_N$fontFamily": "Arial",
     "_N$overflow": 0,
     "_N$cacheMode": 0,
-    "_id": "45+AmideRPZI7ggoOw+k6a"
+    "_id": "14KV4c3RBF1J6HTzweZDY5"
   },
   {
     "__type__": "cc.RichText",
@@ -3994,7 +3994,7 @@
     "_enabled": true,
     "_fontFamily": "Arial",
     "_isSystemFontUsed": true,
-    "_N$string": "<color=#00ff00>背景音乐音量</c>",
+    "_N$string": "<color=#000000>背景音乐音量</c>",
     "_N$horizontalAlign": 0,
     "_N$fontSize": 40,
     "_N$font": null,
@@ -4088,7 +4088,7 @@
     "_color": {
       "__type__": "cc.Color",
       "r": 0,
-      "g": 255,
+      "g": 0,
       "b": 0,
       "a": 255
     },
@@ -4126,7 +4126,7 @@
     "_skewX": 0,
     "_skewY": 0,
     "groupIndex": 0,
-    "_id": "edDD+vtoJIaIoMgNaLRrgI"
+    "_id": "b7yQ6Fq7NOCpra3/SE3xZ1"
   },
   {
     "__type__": "cc.Label",
@@ -4151,7 +4151,7 @@
     "_N$fontFamily": "Arial",
     "_N$overflow": 0,
     "_N$cacheMode": 0,
-    "_id": "caoL317WdJVZQPsTKDNQVV"
+    "_id": "aajMWuJs5L0Z0GubitAf9R"
   },
   {
     "__type__": "cc.RichText",
@@ -4163,7 +4163,7 @@
     "_enabled": true,
     "_fontFamily": "Arial",
     "_isSystemFontUsed": true,
-    "_N$string": "<color=#00ff00>音效音量</c>",
+    "_N$string": "<color=#000000>音效音量</c>",
     "_N$horizontalAlign": 0,
     "_N$fontSize": 40,
     "_N$font": null,
@@ -4182,7 +4182,7 @@
     },
     "_enabled": true,
     "_clip": {
-      "__uuid__": "b459e4c4-6b4f-49bf-9291-a9d1d3190a5b"
+      "__uuid__": "2ac6d6ef-b3a0-458e-a3eb-fa1d4f45652b"
     },
     "_volume": 1,
     "_mute": false,
