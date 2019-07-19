@@ -4,15 +4,15 @@ cc.Class({
     extends: cc.Component,
 
     properties: {
-
     },
     onLoad() {
         this.LoadButtons()
     },
     start() {
-
     },
     LoadButtons: function() {
+        this.dataBase = require('DataBase')
+
         this.easyBn = this.node.getChildByName('easyBn')
         this.normalBn = this.node.getChildByName('normalBn')
         this.hardBn = this.node.getChildByName('hardBn')
@@ -40,6 +40,10 @@ cc.Class({
         var repeatTimes = (fx - sx) / this.speed
         var interval = 0.001
 
+        this.easyBn.on('click',this.onClick_easy,this)
+        this.normalBn.on('click',this.onClick_normal,this)
+        this.hardBn.on('click',this.onClick_hard,this)
+
         // 让按钮从左侧依次飞入
         this.schedule(function() {
             this.updateEasyBn(this.easyBn)
@@ -61,6 +65,17 @@ cc.Class({
             this.easyBn.active = false
             this.normalBn.active = false
             this.hardBn.active = false
-        }
-        // 更新按钮的坐标
+    },
+    onClick_easy:function() {
+        this.dataBase.HardDegree = 'easy'
+        cc.director.loadScene('Game')
+    },
+    onClick_normal:function() {
+        this.dataBase.HardDegree = 'normal'
+        cc.director.loadScene('Game')
+    },
+    onClick_hard:function() {
+        this.dataBase.HardDegree = 'hard'
+        cc.director.loadScene('Game')
+    }
 });

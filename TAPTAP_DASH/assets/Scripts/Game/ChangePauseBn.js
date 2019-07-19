@@ -9,7 +9,7 @@ cc.Class({
         this.startPic = this.node.getChildByName('restartPic')
     },
     changePic: function(is_start) {
-        if (is_start) {
+        if (!is_start) {
             this.startPic.active = false
             this.pausePic.active = true
         } else {

@@ -4,7 +4,7 @@
 cc.Class({
     extends: cc.Component,
     properties: {
-
+ 
     },
     onLoad() {
         // 人物静止，永远不动
@@ -24,8 +24,44 @@ cc.Class({
         this.AxisY = false
         this.AxisXM = false
         this.AxisXP = false
-        this.jumpSpan = 290
+        this.jumpSpan = 275
         this.timeSpan = 0.028
+    },
+    choosePlayer:function(playerIndex,hardDegree){
+       this.player.pause()
+        switch (playerIndex) {
+            case 0:
+                this.player.play('txy')
+                break
+            case 1:
+                this.player.play('bzt')
+                break
+            case 2:
+                this.player.play('gfr')
+                break
+            case 3:
+                this.player.play('ldz')
+                break
+            case 4:
+                this.player.play('lqh')
+                break
+            case 5:
+                this.player.play('mxb')
+                break
+            default:
+                this.player.play('txy')
+                break
+        }
+        if (hardDegree === 'easy') {
+            this.jumpSpan = 290
+            this.timeSpan = 0.029
+        } else if (hardDegree === 'normal') {
+            this.jumpSpan = 280
+            this.timeSpan = 0.028
+        } else if (hardDegree === 'hard') {
+            this.jumpSpan = 270
+            this.timeSpan = 0.027
+        }
         this.schedule(function() {
             this.jumpY()
             this.jumpXM()
@@ -41,8 +77,8 @@ cc.Class({
         }
         let curblockPosition = this.path.getComponent('Path').getPosition()
             // 人物未脱离砖块范围
-        if ((Math.abs(curblockPosition.x - this.playerPosition.x) < 120 ||
-                Math.abs(curblockPosition.y - this.playerPosition.y) < 120) && exist === true) {
+        if ((Math.abs(curblockPosition.x - this.playerPosition.x) < 130 ||
+                Math.abs(curblockPosition.y - this.playerPosition.y) < 130) && exist === true) {
             return true
         } else if (exist === false && (this.AxisXM || this.AxisXP || this.AxisY)) {
             // 虽然不存在但是正在跳跃

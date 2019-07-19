@@ -15,25 +15,40 @@ cc.Class({
         this.ro = 0
         this.path = this.node.getChildByName('path')
         this.player = this.node.getChildByName('player')
+        this.pause = false
 
         this.schedule(function() {
             this.easeRotation()
         }, 0.026)
+
+        this.schedule(function(){
+            this.changeScale()
+        },0.03)
     },
     pauseMap: function() {
         this.path.getComponent('Path').changeStatus(false)
+        this.pause = true
     },
     pausePlayer: function() {
 
     },
     restartMap: function() {
         this.path.getComponent('Path').changeStatus(true)
+        this.pause = false
     },
     restrartPlayer: function() {
 
     },
-    launchGame: function() {
-        this.path.getComponent('Path').launchGame()
+    changeScale:function(){
+       if(this.pause == true && this.node.scale > 0.3){
+            this.node.setScale(this.node.scale - 0.1)
+       } else if(this.pause == false && this.node.scale < 1) {
+           this.node.setScale(this.node.scale + 0.1)
+       }
+    },
+    launchGame: function(playerIndex,hardDegree) {
+        this.path.getComponent('Path').launchGame(hardDegree)
+        this.player.getComponent('Player').choosePlayer(playerIndex,hardDegree)
     },
 
     // 旋转摄像机和人物
@@ -54,7 +69,9 @@ cc.Class({
     // 检查是否游戏结束
     checkLose:function (){
         let is_exist = this.path.getComponent('Path').requireExist()
-        console.log(is_exist)
+        if(is_exist === 'end') {
+            return is_exist
+        }
         return this.player.getComponent('Player').checkPosition(is_exist)
     },
     // 让转向动作缓慢进行

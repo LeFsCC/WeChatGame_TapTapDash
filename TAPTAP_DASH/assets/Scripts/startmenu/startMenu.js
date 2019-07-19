@@ -1,6 +1,5 @@
 // 开始场景，可转换到选择模式的场景
-// 向前开始的按钮，
-var dataBase = require('DataBase')
+
 cc.Class({
     extends: cc.Component,
 
@@ -16,7 +15,7 @@ cc.Class({
 
     onLoad() {
         this.dataBase = require('DataBase')
-        dataBase.playerChoice = 1
+        this.dataBase.playerChoice = 1
         this.loadProperties()
         this.initStartStage()
     },
@@ -30,37 +29,37 @@ cc.Class({
         this.background = this.node.getChildByName('background')
             // 按钮
         this.startBn = this.node.getChildByName('startBn')
-        this.setBn = this.node.getChildByName('setBn')
         this.backBn = this.node.getChildByName('backBn')
-        this.volumnBn = this.node.getChildByName('volumn')
-        this.purchaseBn = this.node.getChildByName('purchase')
-        this.rankBn = this.node.getChildByName('rank')
+        this.volumnBn = this.node.getChildByName('volumeBn')
+        this.purchaseBn = this.node.getChildByName('purchaseBn')
+        this.tutorBn = this.node.getChildByName('tutorBn')
         this.confirmBn = this.node.getChildByName('confirmBn')
             // 场景编码
-        this.currentStage = 'stage_startMenu' // stage_rank, stage_choicePage, stage_purchase, stage_pre, stage_set, stage_volumn
+        this.currentStage = 'stage_startMenu' // stage_tutor, stage_choicePage, stage_purchase, stage_pre, stage_volumn
 
         this.choicePage = this.node.getChildByName('MulChoiceBn').getComponent('chooseBn')
         this.shopPage = this.node.getChildByName('Shop').getComponent('Shop')
         this.volumnPage = this.node.getChildByName('Volume').getComponent('Volume')
+        this.tutorPage=this.node.getChildByName('Tutor').getComponent('Tutor')
     },
     // 在入场动画开始前初始化场景
     initProperties: function() {
-        cc.log('initProperties')
         this.people.active = false
         this.background.active = false
         this.title.active = false
 
         this.startBn.active = false
-        this.setBn.active = false
         this.backBn.active = false
         this.volumnBn.active = false
         this.purchaseBn.active = false
-        this.rankBn.active = false
+        this.tutorBn.active = false
         this.confirmBn.active = false
         this.node.getChildByName('Volume').getChildByName('bgmSlider').active = false
         this.node.getChildByName('Volume').getChildByName('soundSlider').active = false
         this.node.getChildByName('Volume').getChildByName('bgm').active = false
         this.node.getChildByName('Volume').getChildByName('sound').active = false
+        this.node.getChildByName('Tutor').getChildByName('TutorText').active = false
+        this.node.getChildByName('Tutor').getChildByName('TutorTitle').active = false
 
         this.currentStage = 'stage_pre'
     },
@@ -82,6 +81,8 @@ cc.Class({
             this.choicePage.hideButton()
             this.initStartStage()
         } else if (this.currentStage === 'stage_volumn') {
+            this.initStartStage()
+        } else if (this.currentStage === 'stage_tutor') {
             this.initStartStage()
         }
     },
@@ -108,6 +109,12 @@ cc.Class({
             this.initvolum()
         }
     },
+    onClick_tutorBn:function(){
+        this.playButtonAudio()
+        if (this.currentStage === 'stage_startMenu') {
+            this.initTutor()
+        }
+    },
     initStartStage: function() {
         this.initProperties()
 
@@ -117,15 +124,15 @@ cc.Class({
         this.purchaseBn.on('click', this.onClick_toPurchaseStage, this)
         this.confirmBn.on('click', this.onClick_confirmBn, this)
         this.volumnBn.on('click', this.onClick_volumnBn, this)
+        this.tutorBn.on('click', this.onClick_tutorBn, this)
 
         this.startBn.active = true
-        this.setBn.active = true
         this.background.active = true
         this.title.active = true
         this.people.active = true
         this.purchaseBn.active = true
         this.volumnBn.active = true
-        this.rankBn.active = true
+        this.tutorBn.active = true
         this.currentStage = 'stage_startMenu'
     },
     initChoiceStage: function() {
@@ -153,6 +160,13 @@ cc.Class({
         this.title.active = true
         this.backBn.active = true
         this.volumnPage.initSlides()
+    },
+    initTutor:function(){
+        this.initProperties()
+        this.currentStage = 'stage_tutor'
+        this.background.active = true
+        this.backBn.active = true
+        this.tutorPage.initTutor()
     },
     playButtonAudio: function() {
         this.audioButton.play()
