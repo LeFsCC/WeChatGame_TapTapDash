@@ -1,11 +1,10 @@
-var blocks = function(total, difficulty) {
-    console.log(total,difficulty)
+var blocks = function (total, difficulty) {
     var blocks = []
     var Block = {
         x: 0,
         y: 0,
         exist: false,
-        hasStar : false,
+        hasStar: false,
         direct: 'vertical' // vertical, right, left
     }
     var count = 0
@@ -16,26 +15,26 @@ var blocks = function(total, difficulty) {
     switch (difficulty) {
         case 'easy':
             {
-                geneDiffFlag = 5
+                geneDiffFlag = 4
                 disProb = 0.1
                 turnProb = 0.2
-                starProb = 0.2
+                starProb = 0.3
                 break
             }
         case 'normal':
             {
-                geneDiffFlag = 4
+                geneDiffFlag = 3
                 disProb = 0.3
                 turnProb = 0.4
-                starProb = 0.25
+                starProb = 0.3
                 break
             }
         case 'hard':
             {
                 geneDiffFlag = 2
-                disProb = 0.7
-                turnProb = 0.8
-                starProb = 0.4
+                disProb = 0.5
+                turnProb = 0.7
+                starProb = 0.5
                 break
             }
         default:

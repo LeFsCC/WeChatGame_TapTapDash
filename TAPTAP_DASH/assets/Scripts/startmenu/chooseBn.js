@@ -1,3 +1,6 @@
+
+
+
 // 制作一个按钮渐次飞入的动画
 cc.Class({
 
@@ -10,21 +13,21 @@ cc.Class({
     },
     start() {
     },
-    LoadButtons: function() {
+    LoadButtons: function () {
         this.dataBase = require('DataBase')
 
         this.easyBn = this.node.getChildByName('easyBn')
         this.normalBn = this.node.getChildByName('normalBn')
         this.hardBn = this.node.getChildByName('hardBn')
-        this.speed = 12
+        this.speed = 25
         this.direct = 1
         this.gapBetweenBn = 0
     },
     // 外部接口，用于初始化三个选关按钮，传入初始坐标和终止坐标
-    initButtons: function(sx, sy, fx) {
+    initButtons: function (sx, sy, fx) {
 
         cc.log('choice start')
-            // 场景开始
+        // 场景开始
         this.direct = Number(!!(fx - sx))
         this.fixedPosition = fx
         this.gapBetweenBn = this.easyBn.width / 2
@@ -38,43 +41,46 @@ cc.Class({
         this.hardBn.setPosition(sx, sy - this.gapBetweenBn * 2)
 
         var repeatTimes = (fx - sx) / this.speed
-        var interval = 0.001
+        var interval = 0
 
-        this.easyBn.on('click',this.onClick_easy,this)
-        this.normalBn.on('click',this.onClick_normal,this)
-        this.hardBn.on('click',this.onClick_hard,this)
+        this.easyBn.on('click', this.onClick_easy, this)
+        this.normalBn.on('click', this.onClick_normal, this)
+        this.hardBn.on('click', this.onClick_hard, this)
 
         // 让按钮从左侧依次飞入
-        this.schedule(function() {
-            this.updateEasyBn(this.easyBn)
+        this.schedule(function () {
+            this.updateBn(this.easyBn)
         }, interval, repeatTimes, 0)
-        this.schedule(function() {
-            this.updateEasyBn(this.normalBn)
-        }, interval, repeatTimes, 0.12)
-        this.schedule(function() {
-            this.updateEasyBn(this.hardBn)
-        }, interval, repeatTimes, 0.24)
+        this.schedule(function () {
+            this.updateBn(this.normalBn)
+        }, interval, repeatTimes, 0.10)
+        this.schedule(function () {
+            this.updateBn(this.hardBn)
+        }, interval, repeatTimes, 0.20)
     },
-    updateEasyBn: function(button) {
+    updateBn: function (button) {
         if (button.active) {
             button.setPosition(button.x + this.speed * this.direct, button.y)
         }
     },
-    hideButton: function() {
-            // 回收资源
-            this.easyBn.active = false
-            this.normalBn.active = false
-            this.hardBn.active = false
+    hideButton: function () {
+        // 回收资源
+        this.easyBn.active = false
+        this.normalBn.active = false
+        this.hardBn.active = false
     },
-    onClick_easy:function() {
+    onClick_easy: function () {
+        this.easyBn.setScale(1.2)
         this.dataBase.HardDegree = 'easy'
         cc.director.loadScene('Game')
     },
-    onClick_normal:function() {
+    onClick_normal: function () {
+        this.normalBn.setScale(1.2)
         this.dataBase.HardDegree = 'normal'
         cc.director.loadScene('Game')
     },
-    onClick_hard:function() {
+    onClick_hard: function () {
+        this.hardBn.setScale(1.2)
         this.dataBase.HardDegree = 'hard'
         cc.director.loadScene('Game')
     }

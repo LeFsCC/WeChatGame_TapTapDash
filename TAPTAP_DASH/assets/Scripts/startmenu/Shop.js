@@ -1,3 +1,7 @@
+
+
+// 商店界面，多个人物轮换出现，伴有动画效果
+
 cc.Class({
     extends: cc.Component,
 
@@ -11,9 +15,6 @@ cc.Class({
             default: null
         }
     },
-
-    // LIFE-CYCLE CALLBACKS:
-
     onLoad() {
         this.left = 0
         this.mid = 1
@@ -48,16 +49,13 @@ cc.Class({
             // 计数器
         this.fixed = true
         this.midDirect = ''
-
         this.node.children[this.left].active = true
         this.node.children[this.left].setPosition(-300, 0)
         this.node.children[this.left].on('click', this.onClick_left, this)
         this.node.children[this.left].setScale(0.8)
-
         this.node.children[this.mid].active = true
         this.node.children[this.mid].setPosition(0, 0)
         this.node.children[this.mid].setScale(1.2)
-
         this.node.children[this.right].active = true
         this.node.children[this.right].on('click', this.onClick_right, this)
         this.node.children[this.right].setPosition(300, 0)
@@ -76,6 +74,7 @@ cc.Class({
             this.mediumMovetoRight()
         }, timeInterval)
     },
+    // 点击左边的人物
     onClick_left: function() {
         this.playAudio()
         let cr = this.mid
@@ -94,6 +93,7 @@ cc.Class({
         this.node.children[this.right].on('click', this.onClick_right, this)
         this.midDirect = 'right'
     },
+    // 点击右边的人物
     onClick_right: function() {
         this.playAudio()
         let cm = this.right
@@ -112,6 +112,7 @@ cc.Class({
         this.node.children[this.right].on('click', this.onClick_right, this)
         this.midDirect = 'left'
     },
+    // 几个人物的移动方向
     leftMovetoMedium: function() {
         if (this.midDirect === '' || this.midDirect == 'left') return
         if (this.node.children[this.mid].x < 0)
@@ -138,6 +139,7 @@ cc.Class({
         if (this.node.children[this.mid].scale < 1.2)
             this.node.children[this.mid].setScale(this.node.children[this.mid].scale + 0.04)
     },
+    // 播放音频
     playAudio : function () {
         this.AudioBn.play()
     }

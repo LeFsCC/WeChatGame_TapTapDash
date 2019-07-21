@@ -11,6 +11,7 @@ const volumnDegree = {
     bnVolume : 0.5
 }
 
+// 当前成绩
 const score = 0
 
 // 难度大小

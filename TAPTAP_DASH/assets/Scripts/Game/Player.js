@@ -4,7 +4,7 @@
 cc.Class({
     extends: cc.Component,
     properties: {
- 
+
     },
     onLoad() {
         // 人物静止，永远不动
@@ -18,17 +18,23 @@ cc.Class({
 
         // 正在跳高
         this.jumpStart = false
-            // 跳跃结束
+        // 跳跃结束
         this.jumpend = false
-            // Y向跳跃
+        // Y向跳跃
         this.AxisY = false
         this.AxisXM = false
         this.AxisXP = false
+
+        this.tempAxisY = false
+        this.tempAxisXM = false
+        this.tempAxisXP = false
+
         this.jumpSpan = 275
         this.timeSpan = 0.028
+        this.node.setScale(1.3)
     },
-    choosePlayer:function(playerIndex,hardDegree){
-       this.player.pause()
+    choosePlayer: function (playerIndex, hardDegree) {
+        this.player.pause()
         switch (playerIndex) {
             case 0:
                 this.player.play('txy')
@@ -53,42 +59,43 @@ cc.Class({
                 break
         }
         if (hardDegree === 'easy') {
-            this.jumpSpan = 290
-            this.timeSpan = 0.029
+            this.jumpSpan = 285
+            this.timeSpan = 0.024
         } else if (hardDegree === 'normal') {
             this.jumpSpan = 280
-            this.timeSpan = 0.028
+            this.timeSpan = 0.022
         } else if (hardDegree === 'hard') {
             this.jumpSpan = 270
-            this.timeSpan = 0.027
+            this.timeSpan = 0.021
         }
-        this.schedule(function() {
+        this.schedule(function () {
             this.jumpY()
             this.jumpXM()
             this.jumpXP()
         }, this.timeSpan)
     },
-    // 检查人物的坐标是否越过了方块
-    checkPosition: function(exist) {
+    // 检查人物的坐标是否越过了方块：碰撞检测
+    checkPosition: function (exist) {
         // 获取人物相对于路径原点的坐标
         this.playerPosition = {
             x: this.node.x - this.path.x,
             y: this.node.y - this.path.y
         }
         let curblockPosition = this.path.getComponent('Path').getPosition()
-            // 人物未脱离砖块范围
-        if ((Math.abs(curblockPosition.x - this.playerPosition.x) < 130 ||
-                Math.abs(curblockPosition.y - this.playerPosition.y) < 130) && exist === true) {
+        // 人物未脱离砖块范围
+        if ((Math.abs(curblockPosition.x - this.playerPosition.x) < 140 || Math.abs(curblockPosition.y - this.playerPosition.y) < 140) && exist === true) {
             return true
-        } else if (exist === false && (this.AxisXM || this.AxisXP || this.AxisY)) {
-            // 虽然不存在但是正在跳跃
+        } else if (this.AxisXM || this.AxisXP || this.AxisY) {
+            // 正在跳跃
             return true
         } else {
+            this.path.getComponent('Path').markBlock()
             // 那只有一死
             return false
         }
     },
-    rotatePlayer: function(direct) {
+    // 旋转人物跑动方向和跳跃方向
+    rotatePlayer: function (direct) {
         if (direct != false) {
             this.jumpStart = false
             this.jumpend = false
@@ -117,10 +124,23 @@ cc.Class({
             }
         }
     },
-    pausePlayer: function() {
-        this.player.pause()
+    // 暂停人物动画
+    pausePlayer: function () {
+        this.tempAxisY = this.AxisY
+        this.tempAxisXM = this.AxisXM
+        this.tempAxisXP = this.AxisXP
+        this.AxisY = false
+        this.AxisXM = false
+        this.AxisXP = false
     },
-    jumpY: function() {
+    // 重新播放人物动画
+    restartPlayer: function () {
+        this.AxisY = this.tempAxisY
+        this.AxisXM = this.tempAxisXM
+        this.AxisXP = this.tempAxisXP
+    },
+    // 向上跳
+    jumpY: function () {
         if (this.AxisXM === true || this.AxisXP === true) return
 
         if (this.jumpStart && this.node.y < this.jumpSpan) {
@@ -134,7 +154,8 @@ cc.Class({
             return
         }
     },
-    jumpXP: function() {
+    // 向右跳
+    jumpXP: function () {
         if (this.AxisXM === true || this.AxisY === true) return
 
         if (this.jumpStart && this.node.x < this.jumpSpan) {
@@ -148,7 +169,8 @@ cc.Class({
             return
         }
     },
-    jumpXM: function() {
+    // 向左跳
+    jumpXM: function () {
         if (this.AxisY === true || this.AxisXP === true) return
 
         if (this.jumpStart && this.node.x > -this.jumpSpan) {

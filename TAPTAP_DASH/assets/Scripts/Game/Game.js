@@ -34,7 +34,6 @@ cc.Class({
         this.timeSpan = 0 // 已经经过的时间
         this.if_touch = false
         this.GameResult = 'start' // 'lose', 'win'、
-
         // 飞动的星星是否存在
         this.starExist = false
     },
@@ -60,12 +59,10 @@ cc.Class({
     // 初始化游戏并重新开始，所有属性归到初始状态
     initGame: function () {
         this.timeSpan = 0
-        // TODO: 初始化道路和人物
+        // 初始化道路和人物
         let playerIndex = this.data.requirePlayerChoice()
         let hardDegree = this.data.requireHardDegree()
-
         this.gameCamera.getComponent('Controller').launchGame(playerIndex, hardDegree)
-
         this.node.getChildByName('GameResultPage').active = false
 
         // 刷新时间
@@ -76,50 +73,41 @@ cc.Class({
         this.schedule(function () {
             this.startCheckStatus()
         }, 0.01, 200, 1)
-
+        // 星星飞动
         this.schedule(function () {
             this.flyStar()
         }, 0.02)
     },
+    // 游戏开始一秒以后开始进行碰撞检测
     startCheckStatus: function () {
         this.schedule(function () {
             this.checkStatus()
-        }, 0.01)
+        }, 0.017)
     },
     // 检查玩家是否失败
     checkStatus: function () {
         let if_lose = this.gameCamera.getComponent('Controller').checkLose()
-
-        // TODO 如果失败, 游戏结束
-        if (if_lose === false) {
+        // TODO 游戏结束
+        if (if_lose === false || if_lose === 'end') {
             this.sceneState = false
             this.gameCamera.getComponent('Controller').pauseMap()
-
             if (this.GameResult === 'start') {
                 this.schedule(function () {
-                    this.gameHint.playLoseHint()
-                }, 0.1, 1)
+                    if (if_lose === false) {
+                        this.gameHint.playLoseHint()
+                    } else {
+                        this.gameHint.playWinHint()
+                    }
+                }, 0.1, 1, 1)
                 this.schedule(function () {
-                    this.back_StartScene()
+                    this.to_GameResultPage()
                 }, 0.1, 1, 1.5)
             }
-            this.GameResult = 'lose'
-            this.unschedule(this.checkStatus)
-        }
-        // TODO, 如果地图结束，玩家胜利
-        else if (if_lose === 'end') {
-            this.sceneState = false
-            this.gameCamera.getComponent('Controller').pauseMap()
-
-            if (this.GameResult === 'start') {
-                this.schedule(function () {
-                    this.gameHint.playWinHint()
-                }, 0.1, 1)
-                this.schedule(function () {
-                    this.back_StartScene()
-                }, 0.1, 1, 1.5)
+            if (if_lose === false) {
+                this.GameResult = 'lose'
+            } else {
+                this.GameResult = 'win'
             }
-            this.GameResult = 'win'
             this.unschedule(this.checkStatus)
         }
     },
@@ -141,24 +129,32 @@ cc.Class({
             this.gameCamera.getComponent('Controller').RotateCamera()
         }
     },
+    // 关闭触摸事件
     closeTouch: function () {
         this.if_touch = false
     },
+    // 注册一些事件
     registEventHandler: function () {
         this.pauseBn.on('click', this.pause_back_Game, this)
         this.node.on('touchstart', this.changeRotation, this)
         this.node.on('touchend', this.closeTouch, this)
     },
-    back_StartScene: function () {
+    // 转换到游戏结算场景
+    to_GameResultPage: function () {
+        this.pauseBn.off('click', this.pause_back_Game, this)
+        this.node.off('touchstart', this.changeRotation, this)
+        this.node.off('touchend', this.closeTouch, this)
         this.node.getChildByName('GameResultPage').active = true
         this.ResultPage.initStar()
     },
+    // 产生星星
     produceNewStar: function () {
         let star = cc.instantiate(this.starElement)
         star.name = String('CanvasStar')
         this.node.addChild(star)
-        star.setPosition(0,0)
+        star.setPosition(0, 0)
     },
+    // 让星星飞动
     flyStar: function () {
         var star = this.node.getChildByName("CanvasStar")
         if (star) {
