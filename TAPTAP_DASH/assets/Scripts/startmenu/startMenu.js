@@ -125,14 +125,14 @@ cc.Class({
         this.backBn.on('click', this.onClick_toStartStage, this)
         this.purchaseBn.on('click', this.onClick_toPurchaseStage, this)
         this.confirmBn.on('click', this.onClick_confirmBn, this)
-        this.volumnBn.on('click', this.onClick_volumnBn, this)
+        // this.volumnBn.on('click', this.onClick_volumnBn, this)
         this.tutorBn.on('click', this.onClick_tutorBn, this)
 
         this.startBn.active = true
         this.background.active = true
         this.title.active = true
         this.purchaseBn.active = true
-        this.volumnBn.active = true
+        // this.volumnBn.active = true
         this.tutorBn.active = true
         this.currentStage = 'stage_startMenu'
     },
